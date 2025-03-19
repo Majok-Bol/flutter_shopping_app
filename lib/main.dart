@@ -3,10 +3,9 @@ void main(){
   runApp(MyApp());
 }
 class MyApp extends StatelessWidget{
-  @override
   Widget build(BuildContext context){
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+   debugShowCheckedModeBanner: false,
       home:ShoppingList(),
     );
   }
@@ -25,5 +24,47 @@ class ShoppingListState extends State<ShoppingList>{
       itemController.clear();
       }
     });
+
+  }
+  void resetItems(){
+  setState(() {
+    itemsToAdd.clear();
+  });
+  }
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(title: Text('Shopping list',style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),centerTitle: true,backgroundColor: Colors.grey,),
+      body:Container(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(child: TextField(
+                  controller: itemController,
+                  decoration: InputDecoration(
+                    hintText: 'Enter item',
+                    border: OutlineInputBorder(),
+                  ),
+
+                ),
+
+                ),
+                IconButton(onPressed: addItem, icon: Icon(Icons.add)),
+                IconButton(onPressed: resetItems, icon: Icon(Icons.delete)),
+              ],
+
+            ),
+            Expanded(child: ListView.builder(
+              itemCount: itemsToAdd.length,
+                itemBuilder: (context,index){
+                return ListTile(title: Text(itemsToAdd[index]),);
+                },),),
+
+          ],
+        ),
+      ),
+    );
   }
 }
